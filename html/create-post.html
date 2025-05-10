@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Post</title>
+    
+    <!--Bootstrap CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="mb-4">Create New Post</h1>
+        <form id="postForm">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Content</label>
+                <textarea class="form-control" id="content" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Save post</button>
+            <a href="index.html" class="btn btn-secondary ms-2">Go back</a>
+        </form>
+    </div>
+    
+    <script>
+        // Function to retrieve posts from local storage
+        function getPosts() {
+            const posts = localStorage.getItem('posts');
+            return posts ? JSON.parse(posts) : [];
+        }
+
+        // Function to save posts from local storage
+        function savePosts(posts) {
+            localStorage.setItem('posts', JSON.stringify(posts));
+        }
+
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            const posts = getPosts();
+
+            // Create new post with exclusive id based on the timestamp
+            const newPost = {
+                id: Date.now(),
+                title: title,
+                content: content
+            };
+
+            posts.push(newPost);
+            savePosts(posts);
+
+            // Redirect to the posts list
+            window.location.href = 'index.html'
+        });
+    </script>
+
+    <!--Bootstrap JS bundle-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</body>
+</html>
